@@ -27,6 +27,27 @@ public class User {
       this.email = email;
    }
 
+   @OneToOne(mappedBy = "user",
+           cascade = CascadeType.ALL, orphanRemoval = true)
+   private Car car;
+
+   public Car getCar() {
+      return car;
+   }
+
+   public void addCar(Car car) {
+      this.car = car;
+      car.setUser(this);
+   }
+
+   public void removeCar(Car car) {
+      if (car != null) {
+         car.setUser(null);
+      }
+      this.car = null;
+   }
+
+
    public Long getId() {
       return id;
    }
