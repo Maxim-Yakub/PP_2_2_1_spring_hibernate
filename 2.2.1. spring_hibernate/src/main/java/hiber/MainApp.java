@@ -36,6 +36,17 @@ public class MainApp {
          System.out.println();
       }
 
+      User user = userService.getUserByCar("model 5", 5);
+      System.out.println(user.getId() + " " + user.getFirstName() + " " + user.getLastName() +" " + user.getEmail());
+
+      user = userService.getUserByCar("unknown", 100500);
+      try {
+         System.out.println(user.getId() + " " + user.getFirstName() + " " + user.getLastName() +" " + user.getEmail());
+      } catch (NullPointerException e) {
+         System.out.println("Владельца данной машины не существует");
+      }
+
+
       context.close();
    }
 }
