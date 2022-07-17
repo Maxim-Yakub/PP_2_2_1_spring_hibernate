@@ -34,22 +34,18 @@ public class UserDaoImp implements UserDao {
 
     @Override
     public User getUserByCar(String model, int series) {
-//        User user = null;
-//        Query query = sessionFactory.getCurrentSession()
-//                .createQuery("from Car where model = :modelValue and series = :seriesValue");
-//
-//        query.setParameter("modelValue", model);
-//        query.setParameter("seriesValue", series);
-//        try {
-//            user = Optional.ofNullable((Car) query.getSingleResult()).get().getUser();
-//        } catch (NoResultException e) {
-//            System.out.println("Данной машины не существует");
-//        }
-//        return user;
+        User user  = null;
+        try {
+            Query query = sessionFactory.getCurrentSession()
+                    .createQuery("select user from User as user" +
+                            " where user.car.model = '" + model + "' and user.car.series =" + series);
+            user = (User)query.getSingleResult();
+        } catch (NoResultException e) {
 
-        Query query = sessionFactory.getCurrentSession()
-                .createQuery("select user from User as user where user.car.model = '" + model + "' and user.car.series =" + series);
-        return (User)query.getSingleResult();
+            System.out.println("\nВладелец данной машины не найден\n");
+        }
+
+        return user;
     }
 }
 
