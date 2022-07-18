@@ -36,10 +36,14 @@ public class UserDaoImp implements UserDao {
     public User getUserByCar(String model, int series) {
         User user  = null;
         try {
-            Query query = sessionFactory.getCurrentSession()
-                    .createQuery("select user from User as user" +
-                            " where user.car.model = '" + model + "' and user.car.series =" + series);
-            user = (User)query.getSingleResult();
+            TypedQuery<User> query = sessionFactory.getCurrentSession()
+                    .createQuery("select user from User as user " +
+                            "where user.car.model = :model and user.car.series = :series" );
+            query.setParameter("model", model);
+            query.setParameter("series", series);
+
+            user = query.getSingleResult();
+
         } catch (NoResultException e) {
 
             System.out.println("\nВладелец данной машины не найден\n");
